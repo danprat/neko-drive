@@ -1,24 +1,38 @@
-# Dependencies
-node_modules/
+# dependencies (bun install)
+node_modules
 
-# Environment
+# output
+out
+dist
+*.tgz
+
+# code coverage
+coverage
+*.lcov
+
+# logs
+logs
+_.log
+report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
+
+# dotenv environment variable files
 .env
+.env.development.local
+.env.test.local
+.env.production.local
 .env.local
 
-# Metadata (Local DB)
-metadata/*.json
+# caches
+.eslintcache
+.cache
+*.tsbuildinfo
 
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-logs/
-*.log
+# IntelliJ based IDEs
+.idea
 
-# Editor
-.vscode/
-.idea/
-
-# System
-Thumbs.db
+# Finder (MacOS) folder config
 .DS_Store
+
+node_modules
+_legacy_backup
+neko.db*

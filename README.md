@@ -1,76 +1,57 @@
-# Neko Drive 🐱☁️
+# 🐱 Neko Drive 2.0: The Sweet Release 🛡️💎
 
-**Unlimited, Secure, and High-Speed Cloud Storage backed by Discord.**
+Neko Drive is a professional-grade, decentralized cloud storage engine that transforms Discord into a secure, limitless object store. Built for privacy and performance, it features zero-knowledge client-side encryption and a high-fidelity interface.
 
-Neko Drive turns Discord's massive CDN into your personal, encrypted file system. It bypasses file size limits by smart-chunking, secures everything with AES-256, and runs entirely statelessly on Vercel.
+## 🚀 Key Features
 
-## ✨ Key Features
+- **Distributed Storage**: Seamlessly shards files across Discord CDN.
+- **Resumable Engine**: State-of-the-art transfer manager that survives network drops and session pauses.
+- **Zero-Knowledge Security**: AES-GCM-256 E2E encryption. Your keys, your data—server is content-blind.
+- **Circular Backup Protocol**: Self-healing metadata backups with automatic Discord channel purification.
+- **Premium UI/UX**: Built with Shadcn UI, featuring fluid micro-animations and real-time system diagnostics.
+- **Local-First Speed**: Powered by Bun and SQLite (WAL mode) for near-instant metadata indexing.
 
--   **📂 Unlimited Storage**: Encrypted chunking logic stores file data on **Discord**.
-- **⚡ High Performance**: Metadata stored in **Supabase (PostgreSQL)** for instant access.
-- **🚀 Multi-User Scalability**: Optimized for concurrent use with request tracing and global rate-limit management.
-- **☁️ Serverless**: Fully stateless backend, deployable on Vercel.
-- **🔒 Zero-Knowledge**: Files are encrypted **before** they touch Discord. Only you have the key.
-- **⚡ Super Fast**: Parallel uploads/downloads with **Dynamic Threading**.
-- **📱 Premium UI**: Built with React, TailwindCSS, and a beautiful Catppuccin theme.
-- **🖱️ Drag & Drop**: Seamlessly upload files by dropping them anywhere.
-- **🛠️ Atomic Integrity**: Uses PostgreSQL Stored Procedures (RPC) to ensure files and chunks are saved as a single unit.
+## 🛠️ Tech Stack
 
-## ⚙️ How it Works
+- **Runtime**: [Bun](https://bun.sh) (Fastest JS/TS runner & native SQLite)
+- **Engine**: [Hono](https://hono.dev) (Standard-driven web framework)
+- **Interface**: [React](https://react.dev) + [Vite](https://vitejs.dev)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com) + [Shadcn UI](https://ui.shadcn.com)
+- **State**: [TanStack Query](https://tanstack.com/query) v5
 
-```mermaid
-graph LR
-    User[User] -->|Upload File| Vercel["Neko Drive (Vercel)"]
-    Vercel -->|Encrypt & Chunk| Discord[Discord Channel]
-    Vercel -->|Metadata| Supabase[(Supabase DB)]
-    Supabase -->|File Info| Vercel
-    Discord -->|Stream Chunks| User
+## 📥 Getting Started
+
+### Prerequisites
+
+- [Bun](https://bun.sh) installed globally.
+- A Discord Bot Token and Channel ID (for object storage).
+
+### Installation
+
+```bash
+# Clone and install all dependencies
+bun install
 ```
 
-1.  **Store**: File metadata (name, size, keys) is stored securely in Supabase.
-2.  **Upload**: You drop a file. It gets chunked, encrypted, and sent to Discord as messages.
-3.  **Access**: The app instantly lists your files from Supabase and streams chunks from Discord on demand.
+### Configuration
 
-## 🚀 Deployment Guide (5 Minutes)
+Create `.env` files in both `client/` and `server/` based on the provided `.env.example` templates.
 
-### 1. Create a Discord Bot
-1.  Go to the [Discord Developer Portal](https://discord.com/developers/applications).
-2.  Create a **New Application**.
-3.  Go to **Bot** -> **Add Bot**.
-4.  **Crucial**: Enable **Message Content Intent** under "Privileged Gateway Intents".
-5.  Copy the **Token**.
+### Development
 
-### 2. Create a Channel
-1.  Create a private server and a private channel.
-2.  Right-click the channel -> **Copy Channel ID** (Enable Developer Mode if needed).
-3.  Invite the Bot to your server.
+```bash
+# Start both Backend and Frontend concurrently
+bun run dev
+```
 
-### 3. Set up Supabase
-1.  Go to **[Supabase](https://supabase.com)** and create a new project.
-2.  Go to **SQL Editor** -> Paste the content of `schema.sql` (found in repo) -> **Run**. 
-    *This creates the tables AND the atomic save function (`save_file_with_chunks`).*
-3.  Go to **Settings** -> **API**. Copy `Project URL` and `service_role` (secret) key.
+## 🛡️ Security Model
 
-### 4. Deploy to Vercel
-1.  Click the **Deploy** button above.
-2.  Enter your Environment Variables:
-    *   `DISCORD_BOT_TOKEN`: The token from step 1.
-    *   `DISCORD_CHANNEL_ID`: The ID from step 2.
-    *   `SUPABASE_URL`: From Supabase API Settings.
-    *   `SUPABASE_KEY`: From Supabase API Settings (Service Role).
-    *   `ENCRYPTION_KEY`: A random strong password (e.g., `correct-horse-battery-staple`).
-    *   `ALLOWED_ORIGIN`: Your frontend URL (e.g., `https://your-app.vercel.app`).
-    *   `DEBUG_LOGS`: Set to `true` to enable verbose server tracing (optional).
-3.  Click **Deploy**. Done!
+Neko Drive follows a strictly **Zero-Knowledge** architecture.
 
-## 🛠️ Local Development
+- **Master Key**: Used for local encryption/decryption in Web Workers.
+- **API Secret**: Authorizes secure communication between layers.
+- **No Persistence**: Decryption keys never touch the server or persistent storage.
 
-1.  **Clone**: `git clone https://github.com/yourusername/neko-drive.git`
-2.  **Install**: `npm run install:all`
-3.  **Config**: Create `.env` (see `.env.example`).
-4.  **Run**: `npm run dev` (Opens localhost:5173).
+---
 
-## 📄 License
-
-MIT License. Educational Purpose Only.
-**Disclaimer**: This project uses Discord in a way that may be against ToS for massive-scale storage. Use for personal, small-scale projects only.
+Built with 🐱 by the Neko Drive Team.
